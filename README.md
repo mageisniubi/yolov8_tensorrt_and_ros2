@@ -8,36 +8,33 @@
 
 ## 安装教程
 
-打开本地文件夹终端执行`git clone https://gitee.com/mamou_space/yolov5_tensorrt_and_ros2.git`
+打开本地文件夹终端执行`git clone https://gitee.com/mamou_space/yolov8_tensorrt_and_ros2.git`
 
 
 ## 使用说明
 
 ```
-有n/s/m/l/x/n6/s6/m6/l6/x6这些不同的模式，对于带6的可以输入1280的图片，拥有更高的准确度
+有n/s/m/l/x/n2/s2/m2/l2/x2/n6/s6/m6/l6/x6这些不同的模式
 
 ```
 
 
-### 使用与运行 yolov5s 作为例子
+### 使用与运行 yolov8s 作为例子
 
 1.  从pt生成wts文件
 
 ```
 //拷贝本工程中的gen_wts.py文件，到yolov5的工程中（训练的工程），并进入
-cp {tensorrt}/src/yolov5/src/gen_wts.py {ultralytics}/yolov5
-cd {ultralytics}/yolov5
-//得到yolov5s.wts文件
-python gen_wts.py -w yolov5s.pt -o yolov5s.wts
+cp {tensorrt}/src/yolov8s/src/gen_wts.py {ultralytics}/yolov8s
+cd {ultralytics}/yolov8s
+//得到yolov8s.wts文件
+python gen_wts.py -w yolov8s.pt -o yolov8s.wts -t detect
 ```
 
 2.  从wts生成engine文件
 
 
-*  ***修改./src/yolov5/include/yololayer.h中的CLASS_NUM，INPUT_H，INPUT_W***
-
-*  ***修改./src/yolov5/include/names.hpp文件中的数据（一定要大于等于你的数据）***
-
+*  ***修改./src/yolov8s/include/config.h中的CLASS_NUM，INPUT_H，INPUT_W***
 
 *  将wts文件拷贝到工作空间中
 *  在工作空间中，先编译文件
@@ -48,8 +45,8 @@ colcon build
 ```
 *  然后生成engine文件
 ```
-ros2 run yolov5 yolov5 -s [.wts] [.engine] [n/s/m/l/x/n6/s6/m6/l6/x6 or c/c6 gd gw]  // 生成engine文件
-ros2 run yolov5 yolov5 -d [.engine] [image folder]  // 使用engine文件
+ros2 run yolov8 yolov8_det -s [.wts] [.engine] [n/s/m/l/x/n6/s6/m6/l6/x6 or c/c6 gd gw]  // 生成engine文件
+ros2 run yolov8 yolov8_det -d [.engine] [image folder]  // 使用engine文件
 ```
 *  For example ，samples中是你要测试的图片，大小不能超过你设置的
 ```
