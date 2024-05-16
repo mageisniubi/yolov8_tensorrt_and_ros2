@@ -51,8 +51,8 @@ ros2 run yolov8 yolov8_det -d [.engine] [image folder]  [c/g]  // 使用engine�
 *  For example ，samples中是你要测试的图片，大小不能超过你设置的
 ```
 
-ros2 run yolov5 yolov5 -s yolov8s.wts yolov8s.engine s
-ros2 run yolov5 yolov5 -d yolov8s.engine images g //gpu postprocess image自己创建在工作空间中，用来识别的图片
+ros2 run yolov8 yolov8_det -s yolov8s.wts yolov8s.engine s
+ros2 run yolov8 yolov8_det -d yolov8s.engine images g //gpu postprocess image自己创建在工作空间中，用来识别的图片
 
 ```
 
