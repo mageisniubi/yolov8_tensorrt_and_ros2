@@ -24,9 +24,9 @@
 1.  从pt生成wts文件
 
 ```
-//拷贝本工程中的gen_wts.py文件，到yolov5的工程中（训练的工程），并进入
-cp {tensorrt}/src/yolov8s/src/gen_wts.py {ultralytics}/yolov8s
-cd {ultralytics}/yolov8s
+//拷贝本工程中的gen_wts.py文件，到yolov8的工程中（训练的工程），并进入
+cp {tensorrtx}/yolov8/gen_wts.py {ultralytics}/ultralytics
+cd {ultralytics}/ultralytics
 //得到yolov8s.wts文件
 python gen_wts.py -w yolov8s.pt -o yolov8s.wts -t detect
 ```
@@ -34,7 +34,7 @@ python gen_wts.py -w yolov8s.pt -o yolov8s.wts -t detect
 2.  从wts生成engine文件
 
 
-*  ***修改./src/yolov8s/include/config.h中的CLASS_NUM，INPUT_H，INPUT_W***
+*  ***修改./src/yolov8s/include/config.h中的kNumClass***
 
 *  将wts文件拷贝到工作空间中
 *  在工作空间中，先编译文件
@@ -45,14 +45,14 @@ colcon build
 ```
 *  然后生成engine文件
 ```
-ros2 run yolov8 yolov8_det -s [.wts] [.engine] [n/s/m/l/x/n6/s6/m6/l6/x6 or c/c6 gd gw]  // 生成engine文件
-ros2 run yolov8 yolov8_det -d [.engine] [image folder]  // 使用engine文件
+ros2 run yolov8 yolov8_det -s [.wts] [.engine] [n/s/m/l/x/n2/s2/m2/l2/x2/n6/s6/m6/l6/x6]  // 生成engine文件
+ros2 run yolov8 yolov8_det -d [.engine] [image folder]  [c/g]  // 使用engine文件
 ```
 *  For example ，samples中是你要测试的图片，大小不能超过你设置的
 ```
 
-ros2 run yolov5 yolov5 -s yolov5s.wts yolov5s.engine s
-ros2 run yolov5 yolov5 -d yolov5s.engine samples
+ros2 run yolov5 yolov5 -s yolov8s.wts yolov8s.engine s
+ros2 run yolov5 yolov5 -d yolov8s.engine images g //gpu postprocess image自己创建在工作空间中，用来识别的图片
 
 ```
 
@@ -60,9 +60,9 @@ ros2 run yolov5 yolov5 -d yolov5s.engine samples
 
 *  将生成的engine文件拷贝到weights文件夹中
 
-*  修改./src/yolov5/src/yolov5.cpp中 ***NMS_THRESH（置信度）*** 与 ***NMS_THRESH（非极大值抑制）***
+*  修改config.h中 ***kConfThresh（置信度）*** 与 ***kNmsThresh(非极大值抑制）***
 
-*  修改./src/yolov5/launch/yolov5.launch.py 文件中的***parameters***
+*  修改./src/yolov8/launch/yolov8.launch.py 文件中的***parameters***
 
 *  ***注意：处理图像输入应该是BGR模式，如果不是，需要自己修改img_callback，对获取图像进行处理***
 
@@ -70,7 +70,7 @@ ros2 run yolov5 yolov5 -d yolov5s.engine samples
 ```
 source install/setup.bash
 colcon build
-ros2 launch yolov5 yolov5.launch.py
+ros2 launch yolov8 yolov8.launch.py
 
 ```
 
