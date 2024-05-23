@@ -25,7 +25,7 @@
 
 ```
 //拷贝本工程中的gen_wts.py文件，到yolov8的工程中（训练的工程），并进入
-cp {tensorrtx}/yolov8/gen_wts.py {ultralytics}/ultralytics
+cp {tensorrtx}/yolov8/src/gen_wts.py {ultralytics}/ultralytics
 cd {ultralytics}/ultralytics
 //得到yolov8s.wts文件
 python gen_wts.py -w yolov8s.pt -o yolov8s.wts -t detect
